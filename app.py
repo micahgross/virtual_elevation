@@ -15,7 +15,7 @@ import numpy as np
 import os
 import json
 from io import BytesIO
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from scipy.interpolate import CubicSpline, interp1d
 import time
 from process_fit_file import get_fit_dfs
