@@ -15,7 +15,7 @@ import numpy as np
 import os
 import json
 from io import BytesIO
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from scipy.interpolate import CubicSpline, interp1d
 import time
 from process_fit_file import get_fit_dfs
@@ -268,21 +268,21 @@ def user_input_options():
                                                           key='plot_synced_speed')
     return Options
 
-# def plot_VE(Elevation, Virt_Elevation, CdA_dict, Crr_dict, display_lap):
-#     plt.close('elevation vs. virtual elevation, lap '+str(display_lap))#+', Crr='+str(round(Crr,3)))
-#     fig_VE_lap = plt.figure('elevation vs. virtual elevation, lap '+str(display_lap))#+', Crr='+str(round(Crr,3)))
-#     plt.title('Lap: '+str(display_lap))
-#     plt.plot(Elevation[display_lap], label='elevation')
-#     plt.plot(Virt_Elevation[display_lap], label='virt elev CdA='+str(round(
-#         CdA_dict[display_lap]
-#         ,3))+', Crr='+str(round(
-#             Crr_dict[display_lap],
-#             3)))
-#     # plt.plot(virt_elev*1.05, label='virt_elev*1.05')
-#     plt.legend()
-#     st.write('CdA')
-#     st.write(CdA_dict[display_lap])
-#     st.pyplot(fig_VE_lap)
+def plot_VE(Elevation, Virt_Elevation, CdA_dict, Crr_dict, display_lap):
+    plt.close('elevation vs. virtual elevation, lap '+str(display_lap))#+', Crr='+str(round(Crr,3)))
+    fig_VE_lap = plt.figure('elevation vs. virtual elevation, lap '+str(display_lap))#+', Crr='+str(round(Crr,3)))
+    plt.title('Lap: '+str(display_lap))
+    plt.plot(Elevation[display_lap], label='elevation')
+    plt.plot(Virt_Elevation[display_lap], label='virt elev CdA='+str(round(
+        CdA_dict[display_lap]
+        ,3))+', Crr='+str(round(
+            Crr_dict[display_lap],
+            3)))
+    # plt.plot(virt_elev*1.05, label='virt_elev*1.05')
+    plt.legend()
+    st.write('CdA')
+    st.write(CdA_dict[display_lap])
+    st.pyplot(fig_VE_lap)
 
 #%%
 st.write("""
@@ -332,18 +332,18 @@ if len(uploaded_files) > 0:
                               # plot = Options['plot_synced_speed']
                               # plot = plot_synced_speed
                               )
-        # if plot_synced_speed:
-        #     plt.close('aligned speed signal')
-        #     aligned_speed_fig = plt.figure('aligned speed signal')
-        #     plt.plot(df_power['speed'], label='from df_power')
-        #     plt.plot(df_power['Speed (km/hr)'], label='from df_ppod')
-        #     plt.xlabel('sample number')
-        #     plt.ylabel('speed (km/h)')
-        #     for lap_nr in Laps.keys():
-        #         idx_on = Laps[lap_nr].index.min()
-        #         plt.plot([idx_on, idx_on], [0, 60], Color='black', label=('lap' if lap_nr==1 else '_noLegend_'))
-        #         plt.text(idx_on, 60, str(lap_nr))
-        #     st.pyplot(aligned_speed_fig)
+        if plot_synced_speed:
+            plt.close('aligned speed signal')
+            aligned_speed_fig = plt.figure('aligned speed signal')
+            plt.plot(df_power['speed'], label='from df_power')
+            plt.plot(df_power['Speed (km/hr)'], label='from df_ppod')
+            plt.xlabel('sample number')
+            plt.ylabel('speed (km/h)')
+            for lap_nr in Laps.keys():
+                idx_on = Laps[lap_nr].index.min()
+                plt.plot([idx_on, idx_on], [0, 60], Color='black', label=('lap' if lap_nr==1 else '_noLegend_'))
+                plt.text(idx_on, 60, str(lap_nr))
+            st.pyplot(aligned_speed_fig)
             
         if Laps is not None:
             system_mass = st.sidebar.number_input('system mass (kg)', value=85.0, step=0.5)# system_mass = 85.0
@@ -426,7 +426,7 @@ if len(uploaded_files) > 0:
                                                                                         Crr=user_crr,
                                                                                         CdA=slider_CdA,
                                                                                         )
-                # plot_VE(Elevation, Virt_Elevation, CdA_dict, Crr_dict, display_lap)
+                plot_VE(Elevation, Virt_Elevation, CdA_dict, Crr_dict, display_lap)
 
 #%%
 def recover_saved_variables():
